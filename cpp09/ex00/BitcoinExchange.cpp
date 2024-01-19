@@ -11,12 +11,12 @@ BitcoinExchange::BitcoinExchange(std::string av){
         if(pt != std::string::npos)
         {
             std::string key = av.substr(0,pt);
-            std::string value = av.substr(0,pt);
+            std::string value = av.substr(++pt);
             data.insert(std::make_pair(key,value));
         }
     }
      for (auto it = data.begin(); it != data.end(); ++it) {
-        std::cout << "Key: " << it->first << ", Value: " << it->second << std::endl;
+        std::cout  << it->first << "\n" << it->second << std::endl;
     }
 
 }
