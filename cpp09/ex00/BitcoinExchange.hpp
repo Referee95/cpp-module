@@ -8,18 +8,17 @@
 class BitcoinExchange{
     
     private:
-    std::map<std::string, std::string> data;
-    std::map<std::string, std::string> input_data;
-    std::ifstream input;
+    std::map<std::string, double> data;
+    std::ifstream data_;
 
 
     public:
-    BitcoinExchange(std::string);
+    BitcoinExchange();
     ~BitcoinExchange();
     BitcoinExchange(BitcoinExchange const &);
     BitcoinExchange&operator=(BitcoinExchange const &);
-    void save_data();
-    void save_input(std::string);
-
+    void save_input(std::string const &);
+    std::string trim(std::string const &);
+    void checkinput(std::string , float );
 };
 #endif
