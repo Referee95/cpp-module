@@ -19,6 +19,6 @@ class BitcoinExchange{
     BitcoinExchange&operator=(BitcoinExchange const &);
     void save_input(std::string const &);
     std::string trim(std::string const &);
-    void checkinput(std::string , float );
+    void checkinput(std::string , std::string );
 };
 #endif

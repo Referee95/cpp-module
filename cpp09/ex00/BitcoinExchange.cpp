@@ -44,7 +44,9 @@ std::string  BitcoinExchange::trim(std::string const &str){
     return str.substr(start, end - start +1 );
 }
 
-void BitcoinExchange::checkinput(std::string key, float value){
+void BitcoinExchange::checkinput(std::string key, std::string value){
+    if(value.empty())
+        throw std::invalid_argument("Error: bad input => " + key);
     for(int i = 0; key[i] != '\0'; i++)
     {
         if(!isdigit(key[i]) && key[i] != '-')
@@ -52,10 +54,16 @@ void BitcoinExchange::checkinput(std::string key, float value){
     }
     if (key[4] != '-' || key[7] != '-')
         throw std::invalid_argument("Error: bad input => " + key);
-    if (value > 1000)
-        throw std::invalid_argument("Error: too large a number.");
-        else if (value < 0)
-            throw std::invalid_argument("Error: not a positive number.");
+    int j = 0;
+    for(int i = 1; value[i] != '\0'; i++)
+    {
+        if(!isdigit(value[i]) && value[i] != '.')
+            throw std::invalid_argument("Error: bad input => " + value);
+        if(value[i] == '.')
+            j++;
+    }
+    if((!isdigit(value[0]) && value[0] != '+' && value[0] != '-') || j > 1)
+            throw std::invalid_argument("Error: bad input => " + value);
 }
 
 void BitcoinExchange::save_input(std::string const &av){
@@ -73,7 +81,7 @@ void BitcoinExchange::save_input(std::string const &av){
         exit(1);
     }
     std::string key;
-    float value;
+    std::string value;
     while(getline(input, line))
     {
         size_t pt = line.find("|");
@@ -82,7 +90,7 @@ void BitcoinExchange::save_input(std::string const &av){
             continue;
         }
         key = trim(line.substr(0,pt));
-        value = std::strtod(trim(line.substr(++pt)).c_str(), NULL);
+        value = trim(line.substr(++pt));
         try{
             checkinput(key, value);
         }
@@ -90,15 +98,24 @@ void BitcoinExchange::save_input(std::string const &av){
             std::cout << e.what() << std::endl;
             continue;
         }
+        double vl = std::strtod(value.c_str(), NULL);
+        if(vl < 0 || vl > 1000)
+        {
+         if (vl > 1000)
+            std::cout << "Error: too large a number.\n";
+        else if (vl < 0)
+            std::cout << "Error: not a positive number.\n";
+            continue;
+        }
         std::map<std::string, double>::iterator it =  data.lower_bound(key);
         if (it->first == key){
-            double res = it->second * value ;
-            std::cout << key << " => " << value << " = "<<  res << std::endl;
+            double res = it->second * vl ;
+            std::cout << key << " => " << vl << " = "<<  res << std::endl;
         }
         else{
             --it;
-            double res = it->second * value ;
-            std::cout << key << " => " << value << " = "<<  res << std::endl;
+            double res = it->second * vl ;
+            std::cout << key << " => " << vl << " = "<<  res << std::endl;
         }
 
     }
