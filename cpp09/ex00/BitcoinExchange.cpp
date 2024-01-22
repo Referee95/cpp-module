@@ -64,6 +64,13 @@ void BitcoinExchange::checkinput(std::string key, std::string value){
     }
     if((!isdigit(value[0]) && value[0] != '+' && value[0] != '-') || j > 1)
             throw std::invalid_argument("Error: bad input => " + value);
+    int year = std::strtod(key.substr(0,4).c_str(), NULL);
+    int month = std::strtod(key.substr(5,7).c_str(), NULL);
+    int day = std::strtod(key.substr(8).c_str(), NULL);
+    // std::cout << year << "/" << month << "/" << day << std::endl;
+    if((year < 2009 || year > 2024) || (month < 0 || month > 12) || (day < 1 || day > 31))
+        throw std::invalid_argument("Error: bad input => " + key);
+
 }
 
 void BitcoinExchange::save_input(std::string const &av){
