@@ -24,26 +24,23 @@ int RPN::check_operator(int num1 , int num2, std::string op){
         return (num1 * num2);
     case '/':
         if(num2 == 0)
-            throw std::runtime_error("Division by zero");
+            throw std::runtime_error("Error: division by zero");
         return (num1 / num2);
     default:
-        throw std::runtime_error("invalid operator");
+        throw std::runtime_error("Error: invalid operator");
     }
 }
 int RPN::R_P_N(std::string input){
     std::stringstream ss(input);
     std::string n_o;
     while(ss >> n_o){
-        if(n_o.length() != 1 || (!is_opt(n_o)  && !std::isdigit(n_o[0]))){
-            std::cerr << "Error\n";
-            exit(1);
-        }
+        if(n_o.length() != 1 || (!is_opt(n_o)  && !std::isdigit(n_o[0])))
+            throw std::runtime_error("Error");
         if(std::isdigit(n_o[0])){
             int num = std::atoi(n_o.c_str());
-            // std::cout << "here\n";
             rpn.push(num);
         }
-        else{
+        else {
             if(rpn.size() < 2)
                 throw std::runtime_error("Error");
             int num2 = rpn.top();
@@ -53,9 +50,9 @@ int RPN::R_P_N(std::string input){
             int result = check_operator(num1 , num2, n_o);
             rpn.push(result);
         }
-        if(rpn.size() != 1)
-            std::runtime_error("Error");
     }
+    if(rpn.size() != 1)
+        throw std::runtime_error("Error");
     return rpn.top();
 
 }
