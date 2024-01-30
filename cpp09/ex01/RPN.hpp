@@ -12,6 +12,7 @@ class RPN{
         ~RPN();
         RPN(RPN const &);
         RPN &operator=(RPN const &);
-        void R_P_N(std::string);
+        int R_P_N(std::string);
         bool is_opt(std::string c);
+        int check_operator(int  , int , std::string);
 };
