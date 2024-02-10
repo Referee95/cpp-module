@@ -1,12 +1,12 @@
 #pragma once
-
+#include <vector>
 #include <iostream>
-
+#include <sstream>
 class PmergeMe{
     private:
-
     public:
-        PmergeMe();
+        std::vector<int> tmp;
+        PmergeMe(char **);
         ~PmergeMe();
         PmergeMe(PmergeMe const &);
         PmergeMe &operator=(PmergeMe const &);
