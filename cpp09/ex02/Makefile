@@ -5,7 +5,6 @@ SRCS = main.cpp PmergeMe.cpp
 CXX = c++
 
 CXXFLAGS = -Wall -Wextra -Werror 
-
 OBJS = ${SRCS:.cpp=.o}
 
 $(NAME) : $(OBJS)
