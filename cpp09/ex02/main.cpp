@@ -1,24 +1,36 @@
-#include "PmergeMe.hpp"
 
-void PmergeMe::print(vec tmp){
-    //   vec::iterator i = tmp.begin();
-    for (size_t i = 0;i < tmp.size(); ++i){
-        std::cout  << tmp[i] << " ";
-    }
-    std::cout << std::endl;
-}
-int main(int ac, char **av){
-    if(ac > 2){
+#include"PmergeMe.hpp"
+#include"PmergeMe1.hpp"
+
+int main (int ac, char **av){
+
+    if (ac > 2){
         try{
-            PmergeMe    pmrg(av);
 
-            pmrg.sort();
-            pmrg.print(pmrg.tmp);
+            PmergeMe merege(av);
+            std::cout << "Before: ";
+            merege.print();
+            PmergeMe1 merege1(av);
+            clock_t start_time, end_time;
+            double cpu_time_used;
+            start_time = clock();
+            merege.sorte();
+            end_time = clock();
+            std::cout << "After: ";
+            merege.print();
+            cpu_time_used = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
+            std::cout << "Time to process a range of " << ac - 1 << " elements with std::vector : " << cpu_time_used << " us"<< std::endl;
+            start_time = clock();
+            merege1.sorte();
+            end_time = clock();
+            cpu_time_used = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
+            std::cout << "Time to process a range of " << ac - 1 << " elements with std::list : " << cpu_time_used<< " us"<< std::endl;
+            // std::cout << merege.count << std::endl;
         }
         catch(std::exception &e){
             std::cout << e.what() << std::endl;
         }
     }
-    
-    
+
+    return 0;
 }
