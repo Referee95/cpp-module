@@ -97,8 +97,6 @@ void PmergeMe::inesrtion(){
             main_chain.insert(main_chain.end(), res1[i]);
         i++;
     }
-        // std::cout << "here\n";
-
     insert_pend();
     save_in_tmp(main_chain);
     element_size /= 2;
