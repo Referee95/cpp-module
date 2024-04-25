@@ -54,7 +54,6 @@ int RPN::R_P_N(std::string input){
     if(rpn.size() != 1)
         throw std::runtime_error("Error");
     return rpn.top();
-
 }
 bool RPN::is_opt(std::string c){
     return(c == "+" || c == "-" || c == "/" || c == "*");

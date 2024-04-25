@@ -9,8 +9,6 @@ class BitcoinExchange{
     
     private:
     std::map<std::string, double> data;
-    std::ifstream data_;
-
 
     public:
     BitcoinExchange();
@@ -19,6 +17,6 @@ class BitcoinExchange{
     BitcoinExchange&operator=(BitcoinExchange const &);
     void save_input(std::string const &);
     std::string trim(std::string const &);
-    void checkinput(std::string , std::string );
+    void checkinput(std::string, std::string , std::string);
 };
 #endif

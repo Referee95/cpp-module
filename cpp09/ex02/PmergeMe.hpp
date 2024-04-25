@@ -2,7 +2,6 @@
 #include<vector>
 #include <iostream>
 #include<sstream>
-#include <algorithm>
 #include <climits>
 typedef std::vector <std::vector<int> > vector;
 typedef std::vector <int> vec ;
@@ -18,7 +17,6 @@ class PmergeMe {
 
         void save_in_tmp(vector );
         void print();
-        void print_res(vector);
         vector make_pair();
         vector sorte();
         void inesrtion();

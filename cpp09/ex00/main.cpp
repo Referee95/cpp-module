@@ -3,9 +3,15 @@
 int main(int ac, char **av){
     if(ac == 2)
     {
-        BitcoinExchange test;
-        test.save_input(av[1]);
+        try{
+            BitcoinExchange test;
+            test.save_input(av[1]);
+        }
+        catch(const std::exception &e){
+            std::cerr << e.what() << std::endl;
+        }
     }
     else 
-        std::cerr << "Error: could not open file.\n";
+        std::cerr << "Error: too many args\n";
+    return 0;
 }

@@ -4,7 +4,7 @@
 
 int main (int ac, char **av){
 
-    if (ac > 2){
+    if (ac > 1){
         try{
 
             PmergeMe merege(av);
@@ -25,12 +25,13 @@ int main (int ac, char **av){
             end_time = clock();
             cpu_time_used = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
             std::cout << "Time to process a range of " << ac - 1 << " elements with std::list : " << cpu_time_used<< " us"<< std::endl;
-            // std::cout << merege.count << std::endl;
         }
         catch(std::exception &e){
             std::cout << e.what() << std::endl;
         }
     }
+    else 
+        std::cerr << "Error: too many args\n";
 
     return 0;
 }

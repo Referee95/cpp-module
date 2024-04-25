@@ -1,10 +1,9 @@
 #include "BitcoinExchange.hpp"
 
 BitcoinExchange::BitcoinExchange(){
-    data_.open("data.csv");
+    std::ifstream data_("data.csv");
     if(!data_.is_open()){
-        std::cerr << "Error : not found file data\n";
-        return ;
+        throw std::invalid_argument("Error : not found file data");
     }
     std::string line;
     getline(data_, line);
@@ -17,10 +16,8 @@ BitcoinExchange::BitcoinExchange(){
             std::string value = line.substr(++pt);
             data[key] = std::strtod(value.c_str(), NULL);
         }
-        else{
-            std::cout << "data: invalide file" << std::endl;
-            return ;
-        }
+        else
+            throw std::invalid_argument("data: invalide file");
     }
 }
 
@@ -44,47 +41,45 @@ std::string  BitcoinExchange::trim(std::string const &str){
     return str.substr(start, end - start +1 );
 }
 
-void BitcoinExchange::checkinput(std::string key, std::string value){
+void BitcoinExchange::checkinput(std::string line, std::string key, std::string value){
     if(value.empty())
-        throw std::invalid_argument("Error: bad input => " + key);
+        throw std::invalid_argument("Error: bad input => " + line);
     for(int i = 0; key[i] != '\0'; i++)
     {
         if(!isdigit(key[i]) && key[i] != '-')
-            throw std::invalid_argument("Error: bad input => " + key);
+            throw std::invalid_argument("Error: bad input => " + line);
     }
     if (key[4] != '-' || key[7] != '-')
-        throw std::invalid_argument("Error: bad input => " + key);
+        throw std::invalid_argument("Error: bad input => " + line);
     int j = 0;
     for(int i = 1; value[i] != '\0'; i++)
     {
         if(!isdigit(value[i]) && value[i] != '.')
-            throw std::invalid_argument("Error: bad input => " + value);
+            throw std::invalid_argument("Error: bad input => " + line);
         if(value[i] == '.')
             j++;
     }
     if((!isdigit(value[0]) && value[0] != '+' && value[0] != '-') || j > 1)
-            throw std::invalid_argument("Error: bad input => " + value);
+            throw std::invalid_argument("Error: bad input => " + line);
     int year = std::strtod(key.substr(0,4).c_str(), NULL);
     int month = std::strtod(key.substr(5,7).c_str(), NULL);
     int day = std::strtod(key.substr(8).c_str(), NULL);
     if((year < 2009 || year > 2024) || (month < 0 || month > 12) || (day < 1 || day > 31))
-        throw std::invalid_argument("Error: bad input => " + key);
+        throw std::invalid_argument("Error: bad input => " + line);
 
 }
 
 void BitcoinExchange::save_input(std::string const &av){
 
     std::ifstream input(av.c_str());
-    if(!input.is_open()){
-        std::cerr << "Error: could not open file.\n";
-        exit(1);
-    }
+    if(!input.is_open())
+            throw std::invalid_argument("Error : can't open =>  " + av);
+
     std::string line;
     getline(input, line);
     if (line != "date | value"){
-        std::cerr << "Error: first line is not date | value\n";
         input.close();
-        exit(1);
+        throw std::invalid_argument("Error: first line is not date | value");
     }
     std::string key;
     std::string value;
@@ -98,7 +93,7 @@ void BitcoinExchange::save_input(std::string const &av){
         key = trim(line.substr(0,pt));
         value = trim(line.substr(++pt));
         try{
-            checkinput(key, value);
+            checkinput(line, key, value);
         }
         catch(std::exception &e){
             std::cout << e.what() << std::endl;

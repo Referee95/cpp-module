@@ -22,9 +22,7 @@ class PmergeMe1{
     PmergeMe1(char **);
     ~PmergeMe1();
     void print();
-    void print(lst);
     list make_pair();
-    void print_res(list);
     static bool compare(lst const &, lst const &);
     void save_in_tmp(list);
     void inesrtion();

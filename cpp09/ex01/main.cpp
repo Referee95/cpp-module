@@ -14,5 +14,6 @@ int main(int ac, char **av)
         }
     }
     else 
-        std::cerr << "Error\n";
+        std::cerr << "Error: too many args\n";
+    return 0;
 }

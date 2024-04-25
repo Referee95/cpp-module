@@ -9,13 +9,6 @@ void PmergeMe1::print(){
     std::cout << std::endl;
 }
 
-void PmergeMe1::print(lst tmp1){
-    for(lst::iterator it = tmp1.begin(); it != tmp1.end(); it++){
-        std::cout << *it << " ";
-    }
-    std::cout << std::endl;
-}
-
 PmergeMe1:: PmergeMe1(char **av) : element_size(1){
     int i = 0;
     while (av[++i])
@@ -47,28 +40,16 @@ list PmergeMe1::make_pair(){
             element.push_back(*it);
             it++;
         }
-        // std::cout << "here\n";
         res.push_back(element);
         element.clear();
     }
     return res;
 }
-void PmergeMe1::print_res(list res){
-    for(list::iterator it = res.begin(); it != res.end() ; it++)
-    {
-        std::cout << "vector [ " ;
-        for(lst::iterator itr = it->begin(); itr != it->end(); itr++){
-            std::cout << *itr<< " " ;
-            
-        }
-        std::cout << " ]\n" ;
-    }
-}
+
 bool PmergeMe1::compare(lst const &a, lst const &b){
     return a.back() < b.back();
 }
 void PmergeMe1::insert_pend(){
-    // print_res(main_chain);
     list::iterator lower;
     for(list::iterator it = pend_chain.begin(); it != pend_chain.end();it++){
         lower = std::lower_bound(main_chain.begin(),main_chain.end(), *it, compare);
@@ -108,7 +89,6 @@ void PmergeMe1::inesrtion(){
 
     insert_pend();
     save_in_tmp(main_chain);
-    // print_res(main_chain);
     element_size /= 2;
 }
 void PmergeMe1::save_in_tmp(list res){
@@ -127,7 +107,6 @@ void PmergeMe1::sorte(){
         list::iterator second = std::next(it);
         if (second == res.end())
             break;
-        // it--;
         if(it->size() != element_size || second->size() != element_size)
             break;
         if(it->back() > second->back())
@@ -141,6 +120,4 @@ void PmergeMe1::sorte(){
         sorte();
     }
     inesrtion();
-            // print_res(res);
-
 }
